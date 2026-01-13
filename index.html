@@ -267,6 +267,12 @@
     document.getElementById('close-cart').addEventListener('click', ()=> closeDrawer());
     renderCart();
   });
+  if(document.getElementById('close-cart')){
+  document.getElementById('close-cart').addEventListener('click', ()=> {
+    const drawer = document.getElementById('drawer');
+    if(drawer){ drawer.classList.remove('open'); }
+  });
+}
 </script>
 </body>
 </html>
