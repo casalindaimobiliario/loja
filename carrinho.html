@@ -47,6 +47,33 @@
 }
 .footer-action a:hover{filter:brightness(1.05)}
 .footer-action svg{width:14px;height:14px}
+.footer-action a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #25D366;   /* verde oficial WhatsApp */
+  color: #fff;
+  padding: 6px 10px;     /* compacto */
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+}
+.footer-action a:hover { filter: brightness(1.05); }
+.footer-action svg { width: 14px; height: 14px; }
+
+/* Header mobile: apenas ícone */
+@media(max-width:600px){
+  nav a.btn.gold {
+    padding: 6px 8px;
+    font-size: 0; /* esconde texto */
+  }
+  nav a.btn.gold img {
+    width: 22px;
+    height: 22px;
+    display: inline-block;
+  }
+}
   </style>
 </head>
 <body>
@@ -66,7 +93,7 @@
 </header>
 
 <main>
-  <h1>Seu Carrinho</h1>
+  <h1>Seu Carrinho!</h1>
   <div id="cart-body"></div>
   <div class="cart-total" id="cart-total">Total: 0 AOA</div>
   <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap">
