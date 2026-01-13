@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Carrinho — Casa Linda Imobiliário, Lda</title>
+  <style>
+    body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#fff;color:#333}
+    header{background:#fff;border-bottom:1px solid #eee;position:sticky;top:0;z-index:999}
+    .nav{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:12px 16px}
+    .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#111}
+    .brand img{height:80px;border-radius:10px}
+    .brand-text{font-weight:700;font-size:18px}
+    nav a{text-decoration:none;color:#333;margin-left:16px;padding:8px;border-radius:6px}
+    nav a:hover{background:#f7f7f7}
+    .btn{background:#1a1a1a;color:#fff;border:none;border-radius:8px;padding:10px 16px;cursor:pointer;text-decoration:none}
+    .btn.gold{background:#b9975b;color:#111}
+    main{max-width:1100px;margin:0 auto;padding:24px 16px}
+    h1{margin-top:0}
+    .cart-item{border-bottom:1px solid #eee;padding:12px 0;display:flex;justify-content:space-between;align-items:center}
+    .cart-item-title{font-weight:600}
+    .cart-item-meta{color:#777;font-size:13px}
+    .cart-total{margin-top:20px;font-weight:700;font-size:18px;text-align:right}
+    footer{margin-top:40px;border-top:1px solid #eee;background:#fafafa}
+    footer .wrap{max-width:1100px;margin:0 auto;padding:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;color:#555}
+    footer small{color:#777}
+    .footer-action a{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#fff;padding:10px 14px;border-radius:8px;text-decoration:none;font-weight:600}
+    .footer-action a:hover{filter:brightness(1.05)}
+    .footer-action svg{width:18px;height:18px}
+    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:80px;background:#111;color:#fff;padding:10px 14px;border-radius:8px;z-index:2000}
+    @media(max-width:600px){
+      main{padding:16px}
+      .cart-item{flex-direction:column;align-items:flex-start}
+      .cart-total{text-align:left}
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <a class="brand" href="index.html">
+      <img src="imagens/logo.jpg" alt="Casa Linda Logo" />
+      <div class="brand-text">Casa Linda Imobiliário, Lda</div>
+    </a>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="carrinho.html">Carrinho</a>
+      <a href="pagamento-seguro.html">Pagamento seguro</a>
+      <a href="https://wa.me/244932935960" target="_blank" class="btn gold">Conversar no WhatsApp</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>Seu Carrinho</h1>
+  <div id="cart-body"></div>
+  <div class="cart-total" id="cart-total">Total: 0 AOA</div>
+  <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap">
+    <button class="btn gold" id="send-whatsapp">Finalizar via WhatsApp</button>
+    <a href="index.html" class="btn ghost">Voltar ao Início</a>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <strong>Casa Linda Imobiliário, Lda</strong><br>
+      <small>Localização: Camama 1</small>
+    </div>
+    <div class="footer-action">
+  <a href="https://wa.me/244932935960" target="_blank">
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M20.52 3.48A11.92 11.92 0 0 0 12.01 0C5.38 0 .01 5.37.01 12c0 2.11.55 4.17 1.59 6L0 24l6.12-1.6a11.98 11.98 0 0 0 17.91-10.4c0-3.19-1.24-6.19-3.51-8.52zm-8.51 19.2a9.73 9.73 0 0 1-5.25-1.53l-.38-.23-3.64.95.97-3.55-.25-.37A9.8 9.8 0 1 1 21.82 12a9.8 9.8 0 0 1-9.81 9.68zm5.34-6.97c-.3-.15-1.75-.86-2.02-.95-.27-.1-.47-.15-.66.15-.19.29-.76.95-.93 1.14-.17.19-.34.22-.64.07-.3-.15-1.27-.47-2.42-1.5-.89-.79-1.5-1.77-1.67-2.07-.17-.29-.02-.45.13-.6"/>
+    </svg>
+    Conversar no WhatsApp
+  </a>
+</div>
+</div>
+</footer>
+
+<script>
+  const CART_KEY = "casaLindaCart";
+  const WHATSAPP_NUMBER = "244932935960";
+  const STORE_LOCATION = "Camama 1";
+
+  function getCart(){ 
+    try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; } 
+    catch { return []; } 
+  }
+  function saveCart(cart){ localStorage.setItem(CART_KEY, JSON.stringify(cart)); }
+  function formatCurrency(v){ return new Intl.NumberFormat('pt-AO',{style:'currency',currency:'AOA'}).format(v); }
+  function toast(msg){
+    const t = document.createElement('div');
+    t.className = 'toast'; 
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(()=>t.remove(),2000);
+  }
+
+  function renderCart(){
+    const cart = getCart();
+    const body = document.getElementById("cart-body");
+    body.innerHTML = "";
+    let total = 0;
+    if(cart.length === 0){
+      body.innerHTML = "<p>O carrinho está vazio. Adicione produtos na página inicial.</p>";
+      document.getElementById("cart-total").textContent = "Total: 0 AOA";
+      return;
+    }
+    cart.forEach(i=>{
+      total += i.price * i.qty;
+      const row = document.createElement("div");
+      row.className = "cart-item";
+      row.innerHTML = `
+        <div>
+          <div class="cart-item-title">${i.name}</div>
+          <div class="cart-item-meta">${i.variant || '—'} • ${formatCurrency(i.price)}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <button class="btn gold" onclick="addMore('${i.id}')">+</button>
+          <span><strong>x${i.qty}</strong></span>
+          <button class="btn ghost" onclick="removeOne('${i.id}')">-</button>
+          <button class="btn ghost" onclick="removeItem('${i.id}')">Remover</button>
+        </div>
+      `;
+      body.appendChild(row);
+    });
+    document.getElementById("cart-total").textContent = "Total: " + formatCurrency(total);
+  }
+
+  function addMore(id){
+    const cart = getCart();
+    const idx = cart.findIndex(i => i.id === id);
+    if(idx>=0){ cart[idx].qty += 1; }
+    saveCart(cart);
+    renderCart();
+    toast("Quantidade aumentada.");
+  }
+
+  function removeOne(id){
+    const cart = getCart();
+    const idx = cart.findIndex(i => i.id === id);
+    if(idx>=0){ 
+      if(cart[idx].qty > 1){ 
+        cart[idx].qty -= 1; 
+      } else { 
+        cart.splice(idx,1); 
+      }
+    }
+    saveCart(cart);
+    renderCart();
+    toast("Quantidade reduzida.");
+  }
+
+  function removeItem(id){
+    const cart = getCart().filter(i => i.id !== id);
+    saveCart(cart);
+    renderCart();
+    toast("Item removido.");
+  }
+
+  function sendCartToWhatsApp(){
+    const cart = getCart();
+    if(cart.length === 0){ 
+      toast("Carrinho vazio."); 
+      return; 
+    }
+    const total = cart.reduce((s,i)=> s + (i.price * i.qty), 0);
+    const summary = cart.map(i=>`• ${i.name} (${i.variant||'—'}) x${i.qty} — ${formatCurrency(i.price*i.qty)}`).join('%0A');
+    const totalText = `Total: ${formatCurrency(total)}`;
+    const locationText = `Localização: ${STORE_LOCATION}`;
+    const text = `Carrinho Casa Linda%0A${summary}%0A${totalText}%0A${locationText}`;
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
+    window.open(url,'_blank');
+    toast("Carrinho enviado via WhatsApp.");
+  }
+
+  document.addEventListener('DOMContentLoaded', ()=>{
+    renderCart();
+    document.getElementById("send-whatsapp").addEventListener("click", sendCartToWhatsApp);
+  });
+</script>
+</body>
+</html>
