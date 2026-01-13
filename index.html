@@ -60,6 +60,18 @@
       display: none;
     }
     .drawer-overlay.active { display: block; }
+
+    /* Ajustes mobile header e botão WhatsApp */
+    @media(max-width:600px){
+      .nav{flex-direction:column;align-items:flex-start;padding:8px 12px}
+      .brand{flex-direction:column;align-items:flex-start;gap:6px}
+      .brand img{height:60px}
+      .brand-text{font-size:16px}
+      nav{display:flex;flex-direction:column;width:100%;margin-top:8px}
+      nav a, nav .btn{margin:4px 0;width:100%;text-align:center}
+      .footer-action a{padding:8px 10px;font-size:14px}
+      .footer-action svg{width:14px;height:14px}
+    }
   </style>
 </head>
 <body>
@@ -130,7 +142,7 @@
   <div class="drawer-footer">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
       <strong>Total:</strong>
-           <strong id="cart-total">0 AOA</strong>
+      <strong id="cart-total">0 AOA</strong>
     </div>
     <a class="btn gold" href="carrinho.html" id="finalizar-btn" style="display:none;width:100%;text-align:center">
       Finalizar compra
@@ -244,12 +256,16 @@
   }
 
   function openDrawer(){
-    document.getElementById('drawer').classList.add('open');
-    document.getElementById('drawer-overlay').classList.add('active');
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('drawer-overlay');
+    if(drawer) drawer.classList.add('open');
+    if(overlay) overlay.classList.add('active');
   }
   function closeDrawer(){
-    document.getElementById('drawer').classList.remove('open');
-    document.getElementById('drawer-overlay').classList.remove('active');
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('drawer-overlay');
+    if(drawer) drawer.classList.remove('open');
+    if(overlay) overlay.classList.remove('active');
   }
 
   document.addEventListener('DOMContentLoaded', ()=>{
@@ -265,19 +281,20 @@
       });
     });
 
-    // botão Carrinho só abre se houver itens
-    document.getElementById('open-cart').addEventListener('click', (e)=>{
-      e.preventDefault();
-      const cart = getCart();
-      if(cart.length > 0){
-        openDrawer();
-      } else {
-        toast("Adicione um produto antes de abrir o carrinho.");
-      }
-    });
+    const openBtn = document.getElementById('open-cart');
+    const closeBtn = document.getElementById('close-cart');
+    const overlay = document.getElementById('drawer-overlay');
 
-    document.getElementById('close-cart').addEventListener('click', ()=> closeDrawer());
-    document.getElementById('drawer-overlay').addEventListener('click', closeDrawer);
+    if(openBtn){
+      openBtn.addEventListener('click', (e)=>{
+        e.preventDefault();
+        const cart = getCart();
+        if(cart.length > 0){ openDrawer(); }
+        else { toast("Adicione um produto antes de abrir o carrinho."); }
+      });
+    }
+    if(closeBtn) closeBtn.addEventListener('click', closeDrawer);
+    if(overlay) overlay.addEventListener('click', closeDrawer);
 
     renderCart();
   });
