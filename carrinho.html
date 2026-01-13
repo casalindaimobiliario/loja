@@ -179,6 +179,30 @@
     renderCart();
     document.getElementById("send-whatsapp").addEventListener("click", sendCartToWhatsApp);
   });
+  function sendCartToWhatsApp(){
+  const cart = getCart();
+  if(cart.length === 0){ 
+    toast("Carrinho vazio."); 
+    return; 
+  }
+  const total = cart.reduce((s,i)=> s + (i.price * i.qty), 0);
+  const summary = cart.map(i=>`• ${i.name} (${i.variant||'—'}) x${i.qty} — ${formatCurrency(i.price*i.qty)}`).join('%0A');
+  const totalText = `Total: ${formatCurrency(total)}`;
+  const locationText = `Localização: ${STORE_LOCATION}`;
+  const text = `Carrinho Casa Linda%0A${summary}%0A${totalText}%0A${locationText}`;
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
+  
+  // abre WhatsApp
+  window.open(url,'_blank');
+  toast("Carrinho enviado via WhatsApp.");
+
+  // limpa carrinho
+  localStorage.removeItem(CART_KEY);
+  renderCart();
+
+  // redireciona para página inicial
+  setTimeout(()=>{ window.location.href = "index.html"; }, 1500);
+}
 </script>
 </body>
 </html>
