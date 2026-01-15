@@ -165,6 +165,112 @@ nav svg {
   width: 16px;
   height: 16px;
 }
+/* Header fixo em todas resoluções */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+}
+
+/* Espaço no conteúdo para não ficar escondido atrás do header */
+main {
+  margin-top: 100px;
+}
+
+/* Ajustes globais dos botões */
+nav .btn {
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* Botão WhatsApp reduzido */
+nav .btn.gold {
+  background: #b9975b;
+  color: #111;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+/* Links e ícones */
+nav a {
+  text-decoration: none;
+  color: #333;
+  margin-left: 12px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+nav svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Ajustes mobile */
+@media(max-width:600px){
+  .nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .brand img {
+    height: 40px; /* logo menor no mobile */
+  }
+  nav .btn {
+    width: 100%; /* botões ocupam largura total */
+    text-align: center;
+    margin: 4px 0;
+  }
+}
+/* Remove efeito hover dos links/botões */
+nav a:hover,
+nav .btn:hover {
+  background: none;   /* não muda o fundo */
+  color: inherit;     /* mantém a cor original */
+  filter: none;       /* remove qualquer efeito */
+}
+/* Botões padrão */
+nav .btn {
+  background: #1a1a1a;   /* preto */
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* Hover: muda de preto para cinza */
+nav .btn:hover {
+  background: #555;      /* cinza médio */
+  color: #fff;           /* mantém texto branco */
+}
+
+/* Botão WhatsApp */
+nav .btn.gold {
+  background: #b9975b;
+  color: #111;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+/* Hover WhatsApp: tom mais escuro */
+nav .btn.gold:hover {
+  background: #a07f45;   /* dourado mais escuro */
+  color: #111;
+}
   </style>
 </head>
 <body>
@@ -172,7 +278,7 @@ nav svg {
   <div class="nav">
     <a class="brand" href="index.html">
       <img src="imagens/logo.jpg" alt="Casa Linda Logo" style="height:60px;width:auto;border-radius:10px">
-      <div class="brand-text">Casa Linda Imobiliário, Lda.</div>
+      <div class="brand-text">Casa Linda Imobiliário, Lda--</div>
     </a>
     <nav>
       <!-- Removido o link "Início" -->
@@ -184,7 +290,7 @@ nav svg {
 </header>
 <main>
   <section class="hero">
-    <h1>Design que acolhe. Elegância que permanece!</h1>
+    <h1>Design que acolhe. Elegância que permanece.</h1>
     <p>Escolha os móveis planejados com assinatura de designer e finalize sua compra com confiança.</p>
   </section>
 
@@ -441,6 +547,10 @@ nav svg {
 
     renderCart();
   });
+  function clearCart(){
+  localStorage.removeItem(CART_KEY); // apaga carrinho
+  renderCart();                      // atualiza interface
+}
 </script>
 </body>
 </html>
