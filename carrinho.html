@@ -74,6 +74,56 @@
     display: inline-block;
   }
 }
+	  /* Header fixo em todas resoluções */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+}
+
+/* Espaço no conteúdo para não ficar escondido atrás do header */
+main {
+  margin-top: 100px;
+}
+
+/* Botões padrão */
+nav .btn {
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* Botão WhatsApp reduzido */
+nav .btn.gold {
+  background: #b9975b;
+  color: #111;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+/* Ajustes globais para ícones e links */
+nav a {
+  text-decoration: none;
+  color: #333;
+  margin-left: 12px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+nav svg {
+  width: 16px;
+  height: 16px;
+}
   </style>
 </head>
 <body>
@@ -96,10 +146,10 @@
   <h1>Seu Carrinho!</h1>
   <div id="cart-body"></div>
   <div class="cart-total" id="cart-total">Total: 0 AOA</div>
-  <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap">
-    <button class="btn gold" id="send-whatsapp">Finalizar via WhatsApp</button>
-    <a href="index.html" class="btn ghost">Voltar ao Início</a>
-  </div>
+  <a class="btn gold" href="#" id="finalizar-btn" style="width:100%;text-align:center">
+  Finalizar compra
+</a>
+
 </main>
 
 <footer>
@@ -244,6 +294,12 @@
   // redireciona para página inicial
   setTimeout(()=>{ window.location.href = "index.html"; }, 1500);
 }
+document.getElementById("finalizar-btn").addEventListener("click", (e)=>{
+  e.preventDefault();
+  clearCart();                       // limpa carrinho
+  toast("Compra finalizada com sucesso!");
+  window.location.href = "index.html"; // volta para página inicial
+});
 </script>
 </body>
 </html>
