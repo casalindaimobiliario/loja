@@ -9,12 +9,11 @@
     header{background:#fff;border-bottom:1px solid #eee;position:sticky;top:0;z-index:999}
     .nav{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:12px 16px}
     .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#111}
-    .brand img{height:80px;border-radius:10px}
+    .brand img{height:70px;border-radius:10px}
     .brand-text{font-weight:700;font-size:18px}
-    nav a{text-decoration:none;color:#333;margin-left:16px;padding:8px;border-radius:6px}
-    nav a:hover{background:#f7f7f7}
+    nav a{text-decoration:none;color:#333;margin-left:12px;padding:8px;border-radius:6px;font-size:14px}
     .btn{background:#1a1a1a;color:#fff;border:none;border-radius:8px;padding:10px 16px;cursor:pointer;text-decoration:none}
-    .btn.gold{background:#b9975b;color:#111}
+    .btn.gold{background:#25D366;color:#fff;font-size:15px;padding:10px 16px;border-radius:6px} /* WhatsApp verde */
     main{max-width:1100px;margin:0 auto;padding:24px 16px}
     h1{margin-top:0}
     .cart-item{border-bottom:1px solid #eee;padding:12px 0;display:flex;justify-content:space-between;align-items:center}
@@ -28,102 +27,14 @@
     .footer-action a:hover{filter:brightness(1.05)}
     .footer-action svg{width:18px;height:18px}
     .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:80px;background:#111;color:#fff;padding:10px 14px;border-radius:8px;z-index:2000}
+
+    /* Mobile ajustes */
     @media(max-width:600px){
       main{padding:16px}
       .cart-item{flex-direction:column;align-items:flex-start}
       .cart-total{text-align:left}
+      #finalizar-btn, #send-whatsapp{margin-top:20px;width:100%;text-align:center}
     }
-	.footer-action a{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  background:#25D366;   /* verde oficial WhatsApp */
-  color:#fff;
-  padding:6px 10px;     /* menor altura/largura */
-  border-radius:6px;
-  text-decoration:none;
-  font-weight:600;
-  font-size:14px;       /* texto menor */
-}
-.footer-action a:hover{filter:brightness(1.05)}
-.footer-action svg{width:14px;height:14px}
-.footer-action a {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: #25D366;   /* verde oficial WhatsApp */
-  color: #fff;
-  padding: 6px 10px;     /* compacto */
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 14px;
-}
-.footer-action a:hover { filter: brightness(1.05); }
-.footer-action svg { width: 14px; height: 14px; }
-
-/* Header mobile: apenas ícone */
-@media(max-width:600px){
-  nav a.btn.gold {
-    padding: 6px 8px;
-    font-size: 0; /* esconde texto */
-  }
-  nav a.btn.gold img {
-    width: 22px;
-    height: 22px;
-    display: inline-block;
-  }
-}
-	  /* Header fixo em todas resoluções */
-header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 999;
-  background: #fff;
-  border-bottom: 1px solid #eee;
-}
-
-/* Espaço no conteúdo para não ficar escondido atrás do header */
-main {
-  margin-top: 100px;
-}
-
-/* Botões padrão */
-nav .btn {
-  background: #1a1a1a;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 14px;
-  font-size: 14px;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-/* Botão WhatsApp reduzido */
-nav .btn.gold {
-  background: #b9975b;
-  color: #111;
-  font-size: 14px;
-  padding: 6px 12px;
-  border-radius: 6px;
-}
-
-/* Ajustes globais para ícones e links */
-nav a {
-  text-decoration: none;
-  color: #333;
-  margin-left: 12px;
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-size: 14px;
-}
-
-nav svg {
-  width: 16px;
-  height: 16px;
-}
   </style>
 </head>
 <body>
@@ -134,10 +45,9 @@ nav svg {
       <div class="brand-text">Casa Linda Imobiliário, Lda</div>
     </a>
     <nav>
-      <a href="index.html">Início</a>
-      <a href="carrinho.html">Carrinho</a>
-      <a href="pagamento-seguro.html">Pagamento seguro</a>
-      <a href="https://wa.me/244943902781" target="_blank" class="btn gold">Conversar no WhatsApp</a>
+      <a href="index.html" class="btn">Home</a>
+      <a href="pagamento-seguro.html" class="btn">Pagamento seguro</a>
+      <a href="https://wa.me/244943902781" target="_blank" class="btn gold">WhatsApp</a>
     </nav>
   </div>
 </header>
@@ -146,10 +56,7 @@ nav svg {
   <h1>Seu Carrinho!</h1>
   <div id="cart-body"></div>
   <div class="cart-total" id="cart-total">Total: 0 AOA</div>
-  <a class="btn gold" href="#" id="finalizar-btn" style="width:100%;text-align:center">
-  Finalizar compra
-</a>
-
+    <a class="btn gold" href="#" id="send-whatsapp">Finalizar via WhatsApp</a>
 </main>
 
 <footer>
@@ -159,14 +66,14 @@ nav svg {
       <small>Localização: Camama 1</small>
     </div>
     <div class="footer-action">
-  <a href="https://wa.me/244943902781" target="_blank">
-    <svg viewBox="0 0 24 24" fill="currentColor">
-      <path d="M20.52 3.48A11.92 11.92 0 0 0 12.01 0C5.38 0 .01 5.37.01 12c0 2.11.55 4.17 1.59 6L0 24l6.12-1.6a11.98 11.98 0 0 0 17.91-10.4c0-3.19-1.24-6.19-3.51-8.52zm-8.51 19.2a9.73 9.73 0 0 1-5.25-1.53l-.38-.23-3.64.95.97-3.55-.25-.37A9.8 9.8 0 1 1 21.82 12a9.8 9.8 0 0 1-9.81 9.68zm5.34-6.97c-.3-.15-1.75-.86-2.02-.95-.27-.1-.47-.15-.66.15-.19.29-.76.95-.93 1.14-.17.19-.34.22-.64.07-.3-.15-1.27-.47-2.42-1.5-.89-.79-1.5-1.77-1.67-2.07-.17-.29-.02-.45.13-.6"/>
-    </svg>
-    Conversar no WhatsApp
-  </a>
-</div>
-</div>
+      <a href="https://wa.me/244943902781" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M20.52 3.48A11.92 11.92 0 0 0 12.01 0C5.38 0 .01 5.37.01 12c0 2.11.55 4.17 1.59 6L0 24l6.12-1.6a11.98 11.98 0 0 0 17.91-10.4c0-3.19-1.24-6.19-3.51-8.52zm-8.51 19.2a9.73 9.73 0 0 1-5.25-1.53l-.38-.23-3.64.95.97-3.55-.25-.37A9.8 9.8 0 1 1 21.82 12a9.8 9.8 0 0 1-9.81 9.68zm5.34-6.97c-.3-.15-1.75-.86-2.02-.95-.27-.1-.47-.15-.66.15-.19.29-.76.95-.93 1.14-.17.19-.34.22-.64.07-.3-.15-1.27-.47-2.42-1.5-.89-.79-1.5-1.77-1.67-2.07-.17-.29-.02-.45.13-.6"/>
+        </svg>
+        Conversar no WhatsApp
+      </a>
+    </div>
+  </div>
 </footer>
 
 <script>
@@ -223,7 +130,7 @@ nav svg {
     const cart = getCart();
     const idx = cart.findIndex(i => i.id === id);
     if(idx>=0){ cart[idx].qty += 1; }
-    saveCart(cart);
+        saveCart(cart);
     renderCart();
     toast("Quantidade aumentada.");
   }
@@ -250,6 +157,13 @@ nav svg {
     toast("Item removido.");
   }
 
+  // Função para limpar carrinho
+  function clearCart(){
+    localStorage.removeItem(CART_KEY);
+    renderCart();
+  }
+
+  // Finalizar via WhatsApp
   function sendCartToWhatsApp(){
     const cart = getCart();
     if(cart.length === 0){ 
@@ -262,44 +176,39 @@ nav svg {
     const locationText = `Localização: ${STORE_LOCATION}`;
     const text = `Carrinho Casa Linda%0A${summary}%0A${totalText}%0A${locationText}`;
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
+
+    // abre WhatsApp
     window.open(url,'_blank');
     toast("Carrinho enviado via WhatsApp.");
+
+    // limpa carrinho e volta ao início
+    clearCart();
+    setTimeout(()=>{ window.location.href = "index.html"; }, 1200);
   }
 
   document.addEventListener('DOMContentLoaded', ()=>{
     renderCart();
-    document.getElementById("send-whatsapp").addEventListener("click", sendCartToWhatsApp);
+
+    // Botão finalizar compra normal
+    const finalizarBtn = document.getElementById("finalizar-btn");
+    if(finalizarBtn){
+      finalizarBtn.addEventListener("click", (e)=>{
+        e.preventDefault();
+        clearCart();
+        toast("Compra finalizada com sucesso!");
+        setTimeout(()=>{ window.location.href = "index.html"; }, 1000);
+      });
+    }
+
+    // Botão finalizar via WhatsApp
+    const sendWhatsAppBtn = document.getElementById("send-whatsapp");
+    if(sendWhatsAppBtn){
+      sendWhatsAppBtn.addEventListener("click", (e)=>{
+        e.preventDefault();
+        sendCartToWhatsApp();
+      });
+    }
   });
-  function sendCartToWhatsApp(){
-  const cart = getCart();
-  if(cart.length === 0){ 
-    toast("Carrinho vazio."); 
-    return; 
-  }
-  const total = cart.reduce((s,i)=> s + (i.price * i.qty), 0);
-  const summary = cart.map(i=>`• ${i.name} (${i.variant||'—'}) x${i.qty} — ${formatCurrency(i.price*i.qty)}`).join('%0A');
-  const totalText = `Total: ${formatCurrency(total)}`;
-  const locationText = `Localização: ${STORE_LOCATION}`;
-  const text = `Carrinho Casa Linda%0A${summary}%0A${totalText}%0A${locationText}`;
-  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
-  
-  // abre WhatsApp
-  window.open(url,'_blank');
-  toast("Carrinho enviado via WhatsApp.");
-
-  // limpa carrinho
-  localStorage.removeItem(CART_KEY);
-  renderCart();
-
-  // redireciona para página inicial
-  setTimeout(()=>{ window.location.href = "index.html"; }, 1500);
-}
-document.getElementById("finalizar-btn").addEventListener("click", (e)=>{
-  e.preventDefault();
-  clearCart();                       // limpa carrinho
-  toast("Compra finalizada com sucesso!");
-  window.location.href = "index.html"; // volta para página inicial
-});
 </script>
 </body>
 </html>
